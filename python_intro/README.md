@@ -8,3 +8,4 @@ Intro to Python:
 
 2. Lesson 2
   1. drawings.py (introduction to classes by drawing shapes)
+  2. send_text.py ()
