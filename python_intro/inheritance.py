@@ -13,6 +13,6 @@ class Child(Parent):
 # Creating instances in class file ONLY for demo
 #billy_cyrus = Parent("Cyrus", "blue")
 #print(billy_cyrus.last_name)
-miley_cyrus = ("Cyrus", "blue", 5)
+miley_cyrus = Child("Cyrus", "blue", 5)
 print(miley_cyrus.last_name)
 print(miley_cyrus.number_of_toys)
