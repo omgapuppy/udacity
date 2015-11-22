@@ -1,6 +1,7 @@
 import webbrowser
 # Create a Movie class
 class Movie():
+    VALID_RATINGS = ["G", "PG", "PG-13", "R"]
 # Create an init function that accepts variables when called
     def __init__(self, title, storyline, poster_url, trailer):
         self.title = title
