@@ -12,3 +12,4 @@ avatar = media.Movie("Avatar",
                     "http://www.goldposter.com/wp-content/uploads/2015/05/Avatar_poster_goldposter_com_56.jpg",
                     "https://www.youtube.com/watch?v=cRdxXPV9GNQ")
 print(avatar.storyline)
+avatar.show_trailer()
