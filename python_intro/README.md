@@ -12,4 +12,4 @@ Intro to Python:
   3. find_profanity.py (checks movie_quotes.txt for cursewords)
 
 3. Lesson 3
-  1. media.py, entertainment.py (creating classes)
+  1. media.py, entertainment.py, fresh_tomatoes.py (creating classes)
