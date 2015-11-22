@@ -3,4 +3,4 @@
 ### How to run:
  * Open terminal
  * Navigate to ```project_1```
- * Run ```python fresh_tomatoes.py```
+ * Run ```python entertainment_center.py```
