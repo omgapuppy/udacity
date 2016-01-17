@@ -84,14 +84,14 @@ def playerStandings():
     wins = base.format(key='winner', result='wins')
     losses = base.format(key='loser', result='losses')
 
-    join = """SELECT winners.id, winners.name, wins, wins+losses AS match
+    join = """SELECT winners.id, winners.name, wins, wins + losses AS match
     FROM ({wins}) AS winners LEFT JOIN ({losses}) AS losers
     ON winners.id = losers.id;""".format(wins=wins, losses=losses)
 
     conn = connect()
     cur = conn.cursor()
     cur.execute(join + ';')
-    result = c.fetchall()
+    result = cur.fetchall()
     cur.close()
     conn.close()
     return result
@@ -104,6 +104,8 @@ def reportMatch(winner, loser):
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+    executeQuery("""INSERT INTO match (winner, loser)
+    VALUES ({winner}, {loser})""".format(winner=winner, loser=loser))
 
 
 def swissPairings():
@@ -121,3 +123,11 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    standings = [(record[0], record[1]) for record in playerStandings()]
+    if len(standings) < 2:
+        raise KeyError("Not enough players.")
+    left = standings[0::2]
+    right = standings[1::2]
+    pairings = zip(left, right)
+    results = [tuple(list(sum(pairing, ()))) for pairing in pairings]
+    return results
