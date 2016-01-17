@@ -38,7 +38,7 @@ def countPlayers(dbname=DATABASE):
     """Returns the number of players currently registered."""
     conn = connect()
     cur = conn.cursor()
-    c.execute("""SELECT COUNT(id) from player;""")
+    cur.execute("""SELECT COUNT(id) from player;""")
     count = cur.fetchall()
     cur.close()
     conn.close()
@@ -55,6 +55,12 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute("""INSERT INTO player (name) VALUES (%s)""", (name,))
+    conn.commit()
+    cur.close()
+    conn.close()
 
 
 def playerStandings():
@@ -70,6 +76,25 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
+
+    base = """SELECT player.id, name, COUNT(match.id) AS {result}
+    FROM player LEFT JOIN match ON player.id = {key} GROUP BY player.id
+    ORDER BY {result} DESC"""
+
+    wins = base.format(key='winner', result='wins')
+    losses = base.format(key='loser', result='losses')
+
+    join = """SELECT winners.id, winners.name, wins, wins+losses AS match
+    FROM ({wins}) AS winners LEFT JOIN ({losses}) AS losers
+    ON winners.id = losers.id;""".format(wins=wins, losses=losses)
+
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute(join + ';')
+    result = c.fetchall()
+    cur.close()
+    conn.close()
+    return result
 
 
 def reportMatch(winner, loser):
